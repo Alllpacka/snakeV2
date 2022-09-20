@@ -1,3 +1,4 @@
+
 package at.htlhl;
 
 public class Main {
