@@ -1,5 +1,9 @@
 package at.htlhl;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+
 public class Game implements Runnable {
 
     public final int width;
@@ -41,15 +45,13 @@ public class Game implements Runnable {
                 "                                                      ");
         var scan = new java.util.Scanner(System.in);
         String input = "";
+        try {
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ESCAPE);
+        } catch (AWTException e) {
+            System.out.println(e.getMessage());
+        }
         do {
-            /*try {
-                Robot robot = new Robot();
-                for (int i = 0; i < Input.keyCount; i++) {
-                    robot.keyPress(KeyEvent.VK_BACK_SPACE);
-                }
-            } catch (AWTException e) {
-                System.out.println(e.getMessage());
-            }*/
             System.out.println("Neustarten (Y/n)");
             input = scan.nextLine();
             if (input.equalsIgnoreCase("n") || input.equalsIgnoreCase("no")) {
@@ -66,7 +68,7 @@ public class Game implements Runnable {
     }
 
     private void spawnSnake() {
-        this.snake = new Snake(new Point(width/ 2, height/2));
+        this.snake = new Snake(new Point(width / 2, height / 2));
     }
 
     private void spawnApple() {
