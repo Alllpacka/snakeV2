@@ -3,21 +3,38 @@ package at.htlhl;
 public class Main {
     public static Game game;
 
-    private static final String logo = "  ____              _        _ \n" +
-            " / ___| _ __   __ _| | _____| |\n" +
-            " \\___ \\| '_ \\ / _` | |/ / _ \\ |\n" +
-            "  ___) | | | | (_| |   <  __/_|\n" +
-            " |____/|_| |_|\\__,_|_|\\_\\___(_)\n" +
-            "                               ";
 
+    /**
+     * game Logo
+     */
+    private static final String logo = """
+             ____              _        _\s
+            / ___| _ __   __ _| | _____| |
+            \\___ \\| '_ \\ / _` | |/ / _ \\ |
+             ___) | | | | (_| |   <  __/_|
+            |____/|_| |_|\\__,_|_|\\_\\___(_)
+                                         \s""".indent(1);
+
+    /**
+     * @param args
+     * main method
+     */
     public static void main(String[] args) {
         printLogo();
-        Input.startInputListener();
+        Test.bot = true;
+        if (!Test.bot) {
+            Input.startInputListener();
+        }
         game = new Game(16, 12);
         game.start();
     }
 
-    public static void printLogo(){
+    /**
+     * a thread is used to print out the logo,
+     * the characters are printed one by one.
+     * The printing delay is 10ms.
+     */
+    public static void printLogo() {
         for (char c : logo.toCharArray()) {
             System.out.print(c);
             try {

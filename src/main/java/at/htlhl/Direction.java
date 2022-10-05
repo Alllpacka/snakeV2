@@ -4,26 +4,25 @@ public enum Direction {
     Left, Right, Up, Down;
 
 
-    private static Direction invertDirection(Direction direction) {
-        switch (direction) {
-            case Left -> {
-                return Direction.Right;
-            }
-            case Right -> {
-                return Direction.Left;
-            }
-            case Up -> {
-                return Direction.Down;
-            }
-            case Down -> {
-                return Direction.Up;
-            }
-        }
-
-        return Direction.Up;
+    /**
+     * inverts the direction
+     * @return Direction
+     */
+    public Direction invert() {
+        return switch (this) {
+            case Left -> Direction.Right;
+            case Right -> Direction.Left;
+            case Up -> Direction.Down;
+            case Down -> Direction.Up;
+        };
     }
 
+
+    /**
+     * @param direction checks if direction is not the direction of the snake
+     * @return boolean
+     */
     public static boolean checkDirection(Direction direction) {
-        return invertDirection(direction) != Snake.direction;
+        return direction.invert() != Snake.getDirection();
     }
 }

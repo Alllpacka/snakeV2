@@ -3,12 +3,12 @@ package at.htlhl;
 public enum Field {
     HEAD, BODY, APPLE, EMPTY;
 
+
     /**
-     *
-     * Translates the field
      * @param field
-     * @return
-     */
+     * translates Field enum into printable characters
+     * @return char
+     * */
     public char translate(Field field) {
         switch (field) {
             case EMPTY -> {

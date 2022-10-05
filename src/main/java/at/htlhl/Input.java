@@ -11,25 +11,30 @@ import java.util.logging.Logger;
 
 public class Input implements NativeKeyListener {
 
+
+    /**
+     * @param e
+     * is triggered, when a key is pressed
+     */
     public void nativeKeyPressed(NativeKeyEvent e) {
         if (e.getKeyCode() == NativeKeyEvent.VC_W || e.getKeyCode() == NativeKeyEvent.VC_UP) {
             if (Direction.checkDirection(Direction.Up) || Main.game.snake.getSnakeSize() == 0) {
-                Snake.direction = Direction.Up;
+                Snake.setDirection(Direction.Up);
             }
         }
         if (e.getKeyCode() == NativeKeyEvent.VC_A || e.getKeyCode() == NativeKeyEvent.VC_LEFT) {
-            if (Direction.checkDirection(Direction.Left)  || Main.game.snake.getSnakeSize() == 0) {
-                Snake.direction = Direction.Left;
+            if (Direction.checkDirection(Direction.Left) || Main.game.snake.getSnakeSize() == 0) {
+                Snake.setDirection(Direction.Left);
             }
         }
         if (e.getKeyCode() == NativeKeyEvent.VC_S || e.getKeyCode() == NativeKeyEvent.VC_DOWN) {
-            if (Direction.checkDirection(Direction.Down) || Main.game.snake.getSnakeSize()== 0) {
-                Snake.direction = Direction.Down;
+            if (Direction.checkDirection(Direction.Down) || Main.game.snake.getSnakeSize() == 0) {
+                Snake.setDirection(Direction.Down);
             }
         }
         if (e.getKeyCode() == NativeKeyEvent.VC_D || e.getKeyCode() == NativeKeyEvent.VC_RIGHT) {
             if (Direction.checkDirection(Direction.Right) || Main.game.snake.getSnakeSize() == 0) {
-                Snake.direction = Direction.Right;
+                Snake.setDirection(Direction.Right);
             }
         }
     }
@@ -42,6 +47,9 @@ public class Input implements NativeKeyListener {
 
     }
 
+    /**
+     * starts the key listener and deactivates log warnings
+     */
     public static void startInputListener() {
         LogManager.getLogManager().reset();
         Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());

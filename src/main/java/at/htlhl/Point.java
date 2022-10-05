@@ -19,14 +19,6 @@ public class Point {
         return otherPoint.getX() == this.getX() && otherPoint.getY() == this.getY();
     }
 
-    public void setX(int x) {
-        this.x = Math.min(x, Main.game.width - 1);
-    }
-
-    public void setY(int y) {
-        this.y = Math.min(y, Main.game.height - 1);
-    }
-
     public int getX() {
         return x;
     }
@@ -42,5 +34,13 @@ public class Point {
     public void setLocation(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void increaseYBy(int increment) {
+        this.y += increment;
+    }
+
+    public void increaseXBy(int increment) {
+        this.x += increment;
     }
 }

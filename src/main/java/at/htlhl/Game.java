@@ -2,18 +2,21 @@ package at.htlhl;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 
 public class Game implements Runnable {
 
     public final int width;
     public final int height;
-    private Board board;
-    private Thread gameLoop;
+
     public boolean gameOver;
     public Snake snake;
+
     private Point apple;
     private int timeBetweenTicks = 400;
+    private Board board;
+    private Thread gameLoop;
+
+    private int score;
 
     public Game(int width, int height) {
         this.width = width;
@@ -21,11 +24,13 @@ public class Game implements Runnable {
     }
 
     /**
-     * Starts the Game
+     * starts the game, sets default values,
+     * creates spawns snake and apple,
+     * start game-loop
      */
     public void start() {
         this.gameOver = false;
-        Snake.direction = Direction.Right;
+        Snake.setDirection(Direction.Right);
         board = new Board(width, height);
         gameLoop = new Thread(this);
         spawnSnake();
@@ -34,7 +39,8 @@ public class Game implements Runnable {
     }
 
     /**
-     * Stops the Game
+     * stops the game and asks user if
+     * he wants to restart the game
      */
     private void gameOver() {
         System.out.println("   ____                         ___                 _ \n" +
@@ -71,11 +77,19 @@ public class Game implements Runnable {
         this.snake = new Snake(new Point(width / 2, height / 2));
     }
 
+    /**
+     * spawns apple on random position
+     */
     private void spawnApple() {
         apple = getRandomPoint();
         board.setField(apple, Field.APPLE);
     }
 
+    /**
+     * generates a random Point (used for apple spawn)
+     *
+     * @return Point
+     */
     private Point getRandomPoint() {
         Point point = new Point((int) (width * Math.random()), (int) (height * Math.random()));
         for (Point p : snake.getBody()) {
@@ -90,19 +104,29 @@ public class Game implements Runnable {
     }
 
     /**
-     * tick tack
+     * performs every tick, when reached in game-loop,
+     * moves snake and if an apple is eaten, a new apple
+     * is spawned, score is increased
      */
     private void tick() {
-        snake.move(Snake.direction);
+        if (Test.bot) {
+            Test.checkBotDirection();
+        }
+        snake.move(Snake.getDirection());
         if (!gameOver) {
             if (snake.isEating(apple)) {
+                score++;
                 spawnApple();
                 snake.grow();
+                timeBetweenTicks = Math.max((int) (timeBetweenTicks * 0.96), 100);
             }
             board.draw();
         }
     }
 
+    /**
+     * game loop runs, while not game-over
+     */
     @Override
     public void run() {
         while (!gameOver) {
@@ -114,5 +138,21 @@ public class Game implements Runnable {
             }
         }
         gameOver();
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getTimeBetweenTicks() {
+        return timeBetweenTicks;
+    }
+
+    public Snake getSnake() {
+        return snake;
+    }
+
+    public Point getApple() {
+        return apple;
     }
 }
