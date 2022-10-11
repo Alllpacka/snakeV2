@@ -21,11 +21,8 @@ public class Main {
      */
     public static void main(String[] args) {
         printLogo();
-        Test.bot = true;
-        if (!Test.bot) {
-            Input.startInputListener();
-        }
-        game = new Game(16, 12);
+        Input.startInputListener();
+        game = new Game(32, 18);
         game.start();
     }
 

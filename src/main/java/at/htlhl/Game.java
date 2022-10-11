@@ -9,7 +9,7 @@ public class Game implements Runnable {
     public final int height;
 
     public boolean gameOver;
-    public Snake snake;
+    private Snake[] snakes;
 
     private Point apple;
     private int timeBetweenTicks = 400;
@@ -34,6 +34,8 @@ public class Game implements Runnable {
         board = new Board(width, height);
         gameLoop = new Thread(this);
         spawnSnake();
+        snakes[0].setDirection(Direction.Right);
+        snakes[1].setDirection(Direction.Right);
         spawnApple();
         gameLoop.start();
     }
@@ -74,14 +76,16 @@ public class Game implements Runnable {
     }
 
     private void spawnSnake() {
-        this.snake = new Snake(new Point(width / 2, height / 2));
+        this.snakes = new Snake[2];
+        this.snakes[0] = new Snake(new Point(width / 2, height / 2), false);
+        this.snakes[1] = new Snake(new Point(width / 2 - 2, height / 2 - 2), true);
     }
 
     /**
      * spawns apple on random position
      */
     private void spawnApple() {
-        apple = getRandomPoint();
+        apple = generateRandomPoint();
         board.setField(apple, Field.APPLE);
     }
 
@@ -90,15 +94,19 @@ public class Game implements Runnable {
      *
      * @return Point
      */
-    private Point getRandomPoint() {
+    private Point generateRandomPoint() {
         Point point = new Point((int) (width * Math.random()), (int) (height * Math.random()));
-        for (Point p : snake.getBody()) {
-            if (p.equals(point)) {
-                return getRandomPoint();
+        for (int i = 0; i < snakes.length; i++) {
+            for (Point p : snakes[i].getBody()) {
+                if (p.equals(point)) {
+                    return generateRandomPoint();
+                }
             }
         }
-        if (snake.getHeadPoint().equals(point)) {
-            return getRandomPoint();
+        for (int i = 0; i < snakes.length; i++) {
+            if (snakes[i].getHeadPoint().equals(point)) {
+                return generateRandomPoint();
+            }
         }
         return point;
     }
@@ -109,18 +117,20 @@ public class Game implements Runnable {
      * is spawned, score is increased
      */
     private void tick() {
-        if (Test.bot) {
-            Test.checkBotDirection();
+        Bot.checkBotsDirection();
+        for (int i = 0; i < snakes.length; i++) {
+            snakes[i].move(snakes[i].getDirection());
         }
-        snake.move(Snake.getDirection());
         if (!gameOver) {
-            if (snake.isEating(apple)) {
-                score++;
-                spawnApple();
-                snake.grow();
-                timeBetweenTicks = Math.max((int) (timeBetweenTicks * 0.96), 100);
+            for (int i = 0; i < snakes.length; i++) {
+                if (snakes[i].isEating(apple)) {
+                    score++;
+                    spawnApple();
+                    snakes[i].grow();
+                    timeBetweenTicks = Math.max((int) (timeBetweenTicks * 0.96), 100);
+                }
+                board.draw();
             }
-            board.draw();
         }
     }
 
@@ -148,8 +158,8 @@ public class Game implements Runnable {
         return timeBetweenTicks;
     }
 
-    public Snake getSnake() {
-        return snake;
+    public Snake[] getSnakes() {
+        return snakes;
     }
 
     public Point getApple() {

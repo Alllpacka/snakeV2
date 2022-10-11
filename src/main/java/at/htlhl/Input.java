@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 public class Input implements NativeKeyListener {
 
-
     /**
      * @param e
      * is triggered, when a key is pressed
