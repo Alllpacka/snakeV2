@@ -17,6 +17,9 @@ public class Game implements Runnable {
     private Thread gameLoop;
 
     private int score;
+    private long startTime;
+    private long stopTime;
+    private int timeAlive;
 
     public Game(int width, int height) {
         this.width = width;
@@ -29,6 +32,7 @@ public class Game implements Runnable {
      * start game-loop
      */
     public void start() {
+        startTime = System.nanoTime();
         this.gameOver = false;
         Snake.setDirection(Direction.Right);
         board = new Board(width, height);
@@ -45,12 +49,17 @@ public class Game implements Runnable {
      * he wants to restart the game
      */
     private void gameOver() {
+        stopTime = System.nanoTime();
         System.out.println("   ____                         ___                 _ \n" +
                 "  / ___| __ _ _ __ ___   ___   / _ \\__   _____ _ __| |\n" +
                 " | |  _ / _` | '_ ` _ \\ / _ \\ | | | \\ \\ / / _ \\ '__| |\n" +
                 " | |_| | (_| | | | | | |  __/ | |_| |\\ V /  __/ |  |_|\n" +
                 "  \\____|\\__,_|_| |_| |_|\\___|  \\___/  \\_/ \\___|_|  (_)\n" +
                 "                                                      ");
+
+        timeAlive = (int)((stopTime - startTime)/Math.pow(10, 9));
+        System.out.println("Time alive: " + timeAlive + "s");
+
         var scan = new java.util.Scanner(System.in);
         String input = "";
         try {
