@@ -1,5 +1,7 @@
 package at.htlhl;
 
+import org.jnativehook.keyboard.NativeKeyEvent;
+
 import java.util.LinkedList;
 
 public class Snake {
@@ -8,11 +10,17 @@ public class Snake {
     private final Point head;
 
     private Point lastHeadPoint;
-    private static Direction direction = Direction.Right;
+    private Direction direction = Direction.Right;
 
     private boolean grow;
+    public Bot bot;
+    public boolean isBot;
 
-    public Snake(Point startPoint) {
+    public Snake(Point startPoint, boolean isBot) {
+        this.isBot = isBot;
+        if (isBot){
+            bot = new Bot(this);
+        }
         body = new LinkedList<>();
         this.head = startPoint;
         Main.game.getBoard().setField(head.getLocation(), Field.HEAD);
@@ -68,6 +76,9 @@ public class Snake {
         if (Main.game.getBoard().getFields()[head.getY()][head.getX()] == Field.BODY) {
             throw new RuntimeException("Hit Body");
         }
+        if (Main.game.getBoard().getFields()[head.getY()][head.getX()] == Field.HEAD) {
+            throw new RuntimeException("Hit Head");
+        }
     }
 
     /**
@@ -122,13 +133,36 @@ public class Snake {
         body.remove(0);
     }
 
-    public static Direction getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 
-    public static void setDirection(Direction newDirection) {
+    public void setDirection(Direction newDirection) {
         if (newDirection.invert() != direction) {
             direction = newDirection;
+        }
+    }
+
+    public void putKeyIn(int key){
+        if (key == NativeKeyEvent.VC_W || key == NativeKeyEvent.VC_UP) {
+            if (Direction.checkDirection(Direction.Up, this) || this.getSnakeSize() == 0) {
+                this.setDirection(Direction.Up);
+            }
+        }
+        if (key == NativeKeyEvent.VC_A || key == NativeKeyEvent.VC_LEFT) {
+            if (Direction.checkDirection(Direction.Left, this) || this.getSnakeSize() == 0) {
+                this.setDirection(Direction.Left);
+            }
+        }
+        if (key == NativeKeyEvent.VC_S || key == NativeKeyEvent.VC_DOWN) {
+            if (Direction.checkDirection(Direction.Down, this) || this.getSnakeSize() == 0) {
+                this.setDirection(Direction.Down);
+            }
+        }
+        if (key == NativeKeyEvent.VC_D || key == NativeKeyEvent.VC_RIGHT) {
+            if (Direction.checkDirection(Direction.Right, this) || this.getSnakeSize() == 0) {
+                this.setDirection(Direction.Right);
+            }
         }
     }
 }

@@ -16,26 +16,7 @@ public class Input implements NativeKeyListener {
      * is triggered, when a key is pressed
      */
     public void nativeKeyPressed(NativeKeyEvent e) {
-        if (e.getKeyCode() == NativeKeyEvent.VC_W || e.getKeyCode() == NativeKeyEvent.VC_UP) {
-            if (Direction.checkDirection(Direction.Up) || Main.game.snake.getSnakeSize() == 0) {
-                Snake.setDirection(Direction.Up);
-            }
-        }
-        if (e.getKeyCode() == NativeKeyEvent.VC_A || e.getKeyCode() == NativeKeyEvent.VC_LEFT) {
-            if (Direction.checkDirection(Direction.Left) || Main.game.snake.getSnakeSize() == 0) {
-                Snake.setDirection(Direction.Left);
-            }
-        }
-        if (e.getKeyCode() == NativeKeyEvent.VC_S || e.getKeyCode() == NativeKeyEvent.VC_DOWN) {
-            if (Direction.checkDirection(Direction.Down) || Main.game.snake.getSnakeSize() == 0) {
-                Snake.setDirection(Direction.Down);
-            }
-        }
-        if (e.getKeyCode() == NativeKeyEvent.VC_D || e.getKeyCode() == NativeKeyEvent.VC_RIGHT) {
-            if (Direction.checkDirection(Direction.Right) || Main.game.snake.getSnakeSize() == 0) {
-                Snake.setDirection(Direction.Right);
-            }
-        }
+        Main.game.getSnakes()[0].putKeyIn(e.getKeyCode());
     }
 
     public void nativeKeyReleased(NativeKeyEvent e) {
