@@ -16,8 +16,7 @@ public class Main {
                                          \s""".indent(1);
 
     /**
-     * @param args
-     * main method
+     * @param args main method
      */
     public static void main(String[] args) {
         printLogo();
@@ -32,6 +31,13 @@ public class Main {
      * The printing delay is 10ms.
      */
     public static void printLogo() {
+        System.out.println("Copyright 2022 HTL-Hollabrunn\n");
+        System.out.println("Made by Brandstetter");
+        System.out.println("Made by Franzel");
+        System.out.println("Made by Geyser");
+        System.out.println("Made by Holzer");
+        System.out.println("Made by Zeitlberger\n");
+
         for (char c : logo.toCharArray()) {
             System.out.print(c);
             try {

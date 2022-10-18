@@ -34,7 +34,6 @@ public class Game implements Runnable {
     public void start() {
         startTime = System.nanoTime();
         this.gameOver = false;
-        Snake.setDirection(Direction.Right);
         board = new Board(width, height);
         gameLoop = new Thread(this);
         spawnSnake();
