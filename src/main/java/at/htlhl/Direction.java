@@ -22,7 +22,7 @@ public enum Direction {
      * @param direction checks if direction is not the direction of the snake
      * @return boolean
      */
-    public static boolean checkDirection(Direction direction) {
-        return direction.invert() != Snake.getDirection();
+    public static boolean checkDirection(Direction direction, Snake snake) {
+        return direction.invert() != snake.getDirection();
     }
 }

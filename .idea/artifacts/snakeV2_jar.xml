@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="snakeV2:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/snakeV2_jar</output-path>
+    <root id="archive" name="snakeV2.jar">
+      <element id="module-output" name="snakeV2" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/1stleg/jnativehook/2.0.3/jnativehook-2.0.3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
