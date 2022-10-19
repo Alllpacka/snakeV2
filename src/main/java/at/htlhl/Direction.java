@@ -17,6 +17,23 @@ public enum Direction {
         };
     }
 
+    public boolean isHorizontal() {
+        return (this == Left || this == Right);
+    }
+
+    public Field getNextField(Point point, Board board) {
+        Field[][] fields = board.getFields();
+        try {
+            return switch (this) {
+                case Right -> fields[point.getY()][point.getX() + 1];
+                case Left -> fields[point.getY()][point.getX() - 1];
+                case Up -> fields[point.getY() - 1][point.getX()];
+                case Down -> fields[point.getY() + 1][point.getX()];
+            };
+        } catch (IndexOutOfBoundsException e) {
+            return Field.STONE;
+        }
+    }
 
     /**
      * @param direction checks if direction is not the direction of the snake

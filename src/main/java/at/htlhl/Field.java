@@ -15,7 +15,7 @@ public enum Field {
                 return ' ';
             }
             case HEAD -> {
-                return '#';
+                return '@';
             }
             case BODY -> {
                 return '*';
@@ -24,9 +24,9 @@ public enum Field {
                 return '$';
             }
             case STONE -> {
-                return 'X';
+                return '#';
             }
         }
-        return ' ';
+        return 'ඞ';
     }
 }

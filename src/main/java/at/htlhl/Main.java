@@ -1,7 +1,7 @@
 package at.htlhl;
 
+
 public class Main {
-    public static Game game;
 
 
     /**
@@ -16,13 +16,15 @@ public class Main {
                                          \s""".indent(1);
 
     /**
+     * Prints out the logo, initiates the board and starts the game
+     *
      * @param args main method
      */
     public static void main(String[] args) {
         printLogo();
-        Input.startInputListener();
-        game = new Game(32, 18);
+        Game game = new Game(32, 18);
         game.start();
+        //
     }
 
     /**
@@ -31,7 +33,7 @@ public class Main {
      * The printing delay is 10ms.
      */
     public static void printLogo() {
-        System.out.println("Copyright 2022 HTL-Hollabrunn\n");
+        System.out.println("Copyright (c) 2022 HTL-Hollabrunn\n");
         System.out.println("Made by Brandstetter");
         System.out.println("Made by Franzel");
         System.out.println("Made by Geyser");

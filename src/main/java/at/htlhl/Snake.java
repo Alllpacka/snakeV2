@@ -15,45 +15,49 @@ public class Snake {
     private boolean grow;
     public Bot bot;
     public boolean isBot;
+    private Board board;
 
-    public Snake(Point startPoint, boolean isBot) {
+    private int score;
+
+    public Snake(Point startPoint, boolean isBot, Board board) {
         this.isBot = isBot;
-        if (isBot){
+        if (isBot) {
             bot = new Bot(this);
         }
         body = new LinkedList<>();
         this.head = startPoint;
-        Main.game.getBoard().setField(head.getLocation(), Field.HEAD);
+        this.board = board;
+        board.setField(head.getLocation(), Field.HEAD);
     }
 
-    /**
-     * @param direction moves the snake head position on board according to direction,
-     *                  and checks game-over
-     */
-    public void move(Direction direction) {
+    public boolean move() {
         if (body.size() > 0 && !grow) {
             addBodyPoint();
             removeLastBodyPoint();
         }
 
         try {
-            Main.game.getBoard().setField(head, Field.EMPTY);
+            board.setField(head, Field.EMPTY);
             goDirection();
 
-            Main.game.getBoard().setField(head, Field.HEAD);
+            board.setField(head, Field.HEAD);
             for (Point p : body) {
-                Main.game.getBoard().setField(p, Field.BODY);
+                board.setField(p, Field.BODY);
             }
 
             lastHeadPoint = new Point(head.getX(), head.getY());
             grow = false;
+            return true;
         } catch (RuntimeException e) {
-            Main.game.gameOver = true;
+            return false;
         }
     }
 
+    /**
+     * Moves the snake in One Direction
+     */
     private void goDirection() {
-        if (head.getX() >= Main.game.width || head.getY() >= Main.game.width ||
+        if (head.getX() >= board.getFields()[0].length || head.getY() >= board.getFields().length ||
                 head.getX() < 0 || head.getY() < 0) {
             throw new IndexOutOfBoundsException("Out of Field");
         }
@@ -72,12 +76,17 @@ public class Snake {
             case Down -> {
                 head.increaseYBy(1);
             }
+
+
         }
-        if (Main.game.getBoard().getFields()[head.getY()][head.getX()] == Field.BODY) {
+        if (board.getFields()[head.getY()][head.getX()] == Field.BODY) {
             throw new RuntimeException("Hit Body");
         }
-        if (Main.game.getBoard().getFields()[head.getY()][head.getX()] == Field.HEAD) {
+        if (board.getFields()[head.getY()][head.getX()] == Field.HEAD) {
             throw new RuntimeException("Hit Head");
+        }
+        if (board.getFields()[head.getY()][head.getX()] == Field.STONE) {
+            throw new RuntimeException("Hit Stone");
         }
     }
 
@@ -96,6 +105,7 @@ public class Snake {
         grow = true;
         body.add(lastHeadPoint);
     }
+
 
     public Point[] getBody() {
         Point[] array = new Point[body.size()];
@@ -129,12 +139,20 @@ public class Snake {
      * removes last body-point
      */
     private void removeLastBodyPoint() {
-        Main.game.getBoard().setField(body.get(0), Field.EMPTY);
+        board.setField(body.get(0), Field.EMPTY);
         body.remove(0);
     }
 
     public Direction getDirection() {
         return direction;
+    }
+
+    public int getScore() {
+        return this.score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void setDirection(Direction newDirection) {
@@ -143,7 +161,7 @@ public class Snake {
         }
     }
 
-    public void putKeyIn(int key){
+    public void putKeyIn(int key) {
         if (key == NativeKeyEvent.VC_W || key == NativeKeyEvent.VC_UP) {
             if (Direction.checkDirection(Direction.Up, this) || this.getSnakeSize() == 0) {
                 this.setDirection(Direction.Up);

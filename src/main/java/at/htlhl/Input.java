@@ -11,12 +11,14 @@ import java.util.logging.Logger;
 
 public class Input implements NativeKeyListener {
 
+    private static Snake snake;
+
     /**
      * @param e
      * is triggered, when a key is pressed
      */
     public void nativeKeyPressed(NativeKeyEvent e) {
-        Main.game.getSnakes()[0].putKeyIn(e.getKeyCode());
+        snake.putKeyIn(e.getKeyCode());
     }
 
     public void nativeKeyReleased(NativeKeyEvent e) {
@@ -27,13 +29,19 @@ public class Input implements NativeKeyListener {
 
     }
 
+    public static void updateSnake(Snake snake ) {
+        Input.snake = snake;
+    }
+
     /**
      * starts the key listener and deactivates log warnings
      */
-    public static void startInputListener() {
+    public static void startInputListener(Snake snake ) {
         LogManager.getLogManager().reset();
         Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
         logger.setLevel(Level.OFF);
+
+        Input.snake = snake;
 
         try {
             GlobalScreen.registerNativeHook();

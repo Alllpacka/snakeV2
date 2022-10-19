@@ -32,8 +32,6 @@ public class Board {
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }
-
-        System.out.println("Score: " + Main.game.getScore() + " | TimeBetweenTicks: " + Main.game.getTimeBetweenTicks());
         drawLine();
         for (Field[] row : fields) {
             System.out.print("|");
@@ -47,9 +45,12 @@ public class Board {
         drawLine();
     }
 
+    /**
+     * Draws the Line at the top and at the bottom
+     */
     private void drawLine() {
         System.out.print('+');
-        for (int i = 0; i < Main.game.width; i++) {
+        for (int i = 0; i < fields[0].length; i++) {
             System.out.print("--");
         }
         System.out.println('+');
