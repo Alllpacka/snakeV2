@@ -52,7 +52,10 @@ public class Bot {
         ArrayList<Direction> possibleDirections = new ArrayList<>();
         Collections.addAll(possibleDirections, Direction.values());
         removeBadDirections(possibleDirections, snake.getHeadPoint(), board);
-        System.out.println(possibleDirections.size());
+
+        for (Direction direction : possibleDirections) {
+            System.out.println("Possible Direction: " + direction);
+        }
 
         ArrayList<Direction> goodDirections = new ArrayList<>();
         int differenceX = snake.getHeadPoint().getX() - apple.getX();
@@ -66,6 +69,10 @@ public class Bot {
             goodDirections.add(Direction.Down);
         } else {
             goodDirections.add(Direction.Up);
+        }
+
+        for (Direction direction : goodDirections) {
+            System.out.println("Good Direction: " + direction);
         }
         /*for (Direction direction : goodDirections) {
             if (direction.isHorizontal()){
@@ -89,7 +96,12 @@ public class Bot {
 
         if (possibleDirections.contains(goodDirections.get(0)) && possibleDirections.contains(goodDirections.get(1))) {
             for (Direction newDirection : goodDirections) {
-                if (!(newDirection.isHorizontal() ^ Math.abs(differenceX) > Math.abs(differenceY))) {
+                if (newDirection.isHorizontal() == Math.abs(differenceX) > Math.abs(differenceY)) {
+                    /*if (Direction.checkDirection(newDirection, snake)) {
+                        snake.setDirection(newDirection);
+                    } else {
+                        snake.setDirection(goodDirections.get(1));
+                    }*/
                     snake.setDirection(newDirection);
                 }
             }
@@ -100,7 +112,6 @@ public class Bot {
         } else {
             snake.setDirection(possibleDirections.get(0));
         }
-
     }
 
     /**
@@ -116,6 +127,7 @@ public class Bot {
      */
 
     public void removeBadDirections(ArrayList<Direction> directions, Point point, Board board) {
+        // Left, Right, Up, Down
         for (int i = 0; i < directions.size(); i++){
             if (!directions.get(i).getNextField(point, board).equals(Field.EMPTY) && !directions.get(i).getNextField(point, board).equals(Field.APPLE)) {
                 directions.remove(directions.get(i));

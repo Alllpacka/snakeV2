@@ -159,12 +159,12 @@ public class Game implements Runnable {
      * is spawned, score is increased
      */
     private void tick() {
-        Bot.chooseBotsDirection(this);
         for (Snake snake : snakes) {
             if (!snake.move()) {
                 gameOver = true;
             }
         }
+        Bot.chooseBotsDirection(this);
         if (!gameOver) {
             for (Snake snake : snakes) {
                 if (snake.isEating(apple)) {
@@ -173,13 +173,17 @@ public class Game implements Runnable {
                     snake.grow();
                     timeBetweenTicks = Math.max((int) (timeBetweenTicks * 0.96), 100);
                     spawnStone();
+                    spawnStone();
+                    spawnStone();
+                    spawnStone();
+                    spawnStone();
                     /*switch (timeBetweenTicks) {
                         case 100, 101 -> spawnStone();
                     }
                      */
                 }
-                board.draw();
             }
+            board.draw();
         }
     }
 

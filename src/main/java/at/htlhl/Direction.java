@@ -6,14 +6,15 @@ public enum Direction {
 
     /**
      * inverts the direction
+     *
      * @return Direction
      */
     public Direction invert() {
         return switch (this) {
-            case Left -> Direction.Right;
-            case Right -> Direction.Left;
-            case Up -> Direction.Down;
-            case Down -> Direction.Up;
+            case Left -> Right;
+            case Right -> Left;
+            case Up -> Down;
+            case Down -> Up;
         };
     }
 
@@ -23,13 +24,29 @@ public enum Direction {
 
     public Field getNextField(Point point, Board board) {
         Field[][] fields = board.getFields();
+        System.out.println("Point: " + point.getY() + " : " + point.getX());
         try {
-            return switch (this) {
-                case Right -> fields[point.getY()][point.getX() + 1];
-                case Left -> fields[point.getY()][point.getX() - 1];
-                case Up -> fields[point.getY() - 1][point.getX()];
-                case Down -> fields[point.getY() + 1][point.getX()];
-            };
+            switch (this) {
+                case Left -> {
+                    System.out.println(point.getY() + " : " + (point.getX() - 1));
+                    return fields[point.getY()][point.getX() - 1];
+                }
+                case Right -> {
+                    System.out.println(point.getY() + " : " + (point.getX() + 1));
+                    return fields[point.getY()][point.getX() + 1];
+                }
+                case Up -> {
+                    System.out.println((point.getY() - 1) + " : " + (point.getX()));
+                    return fields[point.getY() - 1][point.getX()];
+                }
+                case Down -> {
+                    System.out.println((point.getY() + 1) + " : " + (point.getX()));
+                    return fields[point.getY() + 1][point.getX()];
+                }
+                default -> {
+                    return null;
+                }
+            }
         } catch (IndexOutOfBoundsException e) {
             return Field.STONE;
         }
@@ -41,5 +58,9 @@ public enum Direction {
      */
     public static boolean checkDirection(Direction direction, Snake snake) {
         return direction.invert() != snake.getDirection();
+    }
+
+    public boolean equals(Direction direction) {
+        return this == direction;
     }
 }
