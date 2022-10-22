@@ -8,7 +8,7 @@ public class Game implements Runnable {
     public final int width;
     public final int height;
 
-    public final int stoneAmount = 1;
+    public final int stoneAmount = 0;
     public final int appleAmount = 1;
 
     public boolean gameOver;
@@ -109,7 +109,7 @@ public class Game implements Runnable {
      */
     private void spawnSnake() {
         this.snakes = new Snake[2];
-        this.snakes[0] = new Snake(new Point(width / 2, height / 2), false, board);
+        this.snakes[0] = new Snake(new Point(width / 2 - 1, height / 2), false, board);
         this.snakes[1] = new Snake(new Point(width / 2 - 2, height / 2 - 2), true, board);
     }
 
@@ -172,10 +172,6 @@ public class Game implements Runnable {
                     spawnApple();
                     snake.grow();
                     timeBetweenTicks = Math.max((int) (timeBetweenTicks * 0.96), 100);
-                    spawnStone();
-                    spawnStone();
-                    spawnStone();
-                    spawnStone();
                     spawnStone();
                     /*switch (timeBetweenTicks) {
                         case 100, 101 -> spawnStone();

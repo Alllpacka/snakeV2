@@ -24,29 +24,13 @@ public enum Direction {
 
     public Field getNextField(Point point, Board board) {
         Field[][] fields = board.getFields();
-        System.out.println("Point: " + point.getY() + " : " + point.getX());
         try {
-            switch (this) {
-                case Left -> {
-                    System.out.println(point.getY() + " : " + (point.getX() - 1));
-                    return fields[point.getY()][point.getX() - 1];
-                }
-                case Right -> {
-                    System.out.println(point.getY() + " : " + (point.getX() + 1));
-                    return fields[point.getY()][point.getX() + 1];
-                }
-                case Up -> {
-                    System.out.println((point.getY() - 1) + " : " + (point.getX()));
-                    return fields[point.getY() - 1][point.getX()];
-                }
-                case Down -> {
-                    System.out.println((point.getY() + 1) + " : " + (point.getX()));
-                    return fields[point.getY() + 1][point.getX()];
-                }
-                default -> {
-                    return null;
-                }
-            }
+            return switch (this) {
+                case Left -> fields[point.getY()][point.getX() - 1];
+                case Right -> fields[point.getY()][point.getX() + 1];
+                case Up -> fields[point.getY() - 1][point.getX()];
+                case Down -> fields[point.getY() + 1][point.getX()];
+            };
         } catch (IndexOutOfBoundsException e) {
             return Field.STONE;
         }

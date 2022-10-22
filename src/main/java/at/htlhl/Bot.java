@@ -50,12 +50,12 @@ public class Bot {
 
     public void chooseDirection(Snake snake, Point apple, Board board) {
         ArrayList<Direction> possibleDirections = new ArrayList<>();
-        Collections.addAll(possibleDirections, Direction.values());
-        removeBadDirections(possibleDirections, snake.getHeadPoint(), board);
+        //Collections.addAll(possibleDirections, Direction.values());
+        addPossibleDirections(possibleDirections, snake.getHeadPoint(), board);
 
-        for (Direction direction : possibleDirections) {
+        /*for (Direction direction : possibleDirections) {
             System.out.println("Possible Direction: " + direction);
-        }
+        }*/
 
         ArrayList<Direction> goodDirections = new ArrayList<>();
         int differenceX = snake.getHeadPoint().getX() - apple.getX();
@@ -71,9 +71,9 @@ public class Bot {
             goodDirections.add(Direction.Up);
         }
 
-        for (Direction direction : goodDirections) {
+        /*for (Direction direction : goodDirections) {
             System.out.println("Good Direction: " + direction);
-        }
+        }*/
         /*for (Direction direction : goodDirections) {
             if (direction.isHorizontal()){
                 if (differenceX > 0) {
@@ -95,22 +95,32 @@ public class Bot {
         }*/
 
         if (possibleDirections.contains(goodDirections.get(0)) && possibleDirections.contains(goodDirections.get(1))) {
-            for (Direction newDirection : goodDirections) {
+            if (goodDirections.get(0).isHorizontal() && Math.abs(differenceX) > Math.abs(differenceY)){
+                snake.setDirection(goodDirections.get(0));
+            } else {
+                snake.setDirection(goodDirections.get(1));
+            }
+
+            /*for (Direction newDirection : goodDirections) {
                 if (newDirection.isHorizontal() == Math.abs(differenceX) > Math.abs(differenceY)) {
                     /*if (Direction.checkDirection(newDirection, snake)) {
                         snake.setDirection(newDirection);
                     } else {
                         snake.setDirection(goodDirections.get(1));
-                    }*/
+                    }
                     snake.setDirection(newDirection);
                 }
-            }
+            }*/
         } else if (possibleDirections.contains(goodDirections.get(0))) {
             snake.setDirection(goodDirections.get(0));
         } else if (possibleDirections.contains(goodDirections.get(1))) {
             snake.setDirection(goodDirections.get(1));
         } else {
-            snake.setDirection(possibleDirections.get(0));
+            try {
+                snake.setDirection(possibleDirections.get(0));
+            } catch (IndexOutOfBoundsException e) {
+
+            }
         }
     }
 
@@ -126,13 +136,21 @@ public class Bot {
     Todo fehlerhaft
      */
 
-    public void removeBadDirections(ArrayList<Direction> directions, Point point, Board board) {
+    public void addPossibleDirections(ArrayList<Direction> directions, Point point, Board board) {
+        for (Direction direction: Direction.values()){
+            //System.out.println(direction.getNextField(point, board));
+            if (direction.getNextField(point, board).equals(Field.EMPTY) || direction.getNextField(point, board).equals(Field.APPLE)) {
+                directions.add(direction);
+            }
+        }
+
         // Left, Right, Up, Down
-        for (int i = 0; i < directions.size(); i++){
+        /*for (int i = 0; i < directions.size(); i++){
+            System.out.println(directions.get(i).getNextField(point, board));
             if (!directions.get(i).getNextField(point, board).equals(Field.EMPTY) && !directions.get(i).getNextField(point, board).equals(Field.APPLE)) {
                 directions.remove(directions.get(i));
             }
-        }
+        }*/
     }
 
 

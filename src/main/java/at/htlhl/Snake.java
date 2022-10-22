@@ -156,9 +156,9 @@ public class Snake {
     }
 
     public void setDirection(Direction newDirection) {
-        if (newDirection.invert() != direction) {
+        //if (newDirection.invert() != direction) {
             direction = newDirection;
-        }
+        //}
     }
 
     public void putKeyIn(int key) {
